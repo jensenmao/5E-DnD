@@ -1,0 +1,13 @@
+{
+  "name": "candle-road-5e",
+  "version": "0.1.0",
+  "private": true,
+  "type": "commonjs",
+  "scripts": {
+    "start": "node server.js",
+    "test": "node test.js"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}

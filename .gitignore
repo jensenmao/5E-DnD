@@ -1,0 +1,18 @@
+# Local secrets and exported player saves
+.env
+.env.*
+!.env.example
+烛火与长路-*.json
+saves/
+
+# Dependencies and runtime logs
+node_modules/
+*.log
+
+# Local design and verification artifacts
+.hallmark/
+.codex/
+.agents/
+CODEX_HANDOFF.md
+DEBUG_HANDOFF.md
+ui-*.png

@@ -1,0 +1,409 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>烛火与长路 · D&D 5e 单人冒险</title>
+  <link rel="stylesheet" href="/tokens.css">
+  <style>
+    /* Hallmark · macrostructure: Long Document · tone: medieval adventure journal · anchor hue: brass
+       pre-emit critique: P4 H4 E4 S5 R5 V3 · scope: copy and icon refinement */
+    :root { color-scheme:dark; --bg:var(--color-canvas); --panel:var(--color-panel); --ink:var(--color-ink); --muted:var(--color-muted); --line:var(--color-rule); --gold:var(--color-brass); --red:var(--color-danger); --green:var(--color-health) }
+    * { box-sizing:border-box }
+    body { margin:0; background:var(--bg); color:var(--ink); font:16px/1.65 var(--font-body) }
+    button,input,select,textarea { font:inherit }
+    button { min-height:48px; cursor:pointer; background:var(--panel); color:var(--ink); border:1px solid var(--line); border-radius:2px; padding:.65rem 1rem; }
+    button:hover:not(:disabled) { background:var(--color-hover); border-color:var(--color-brass) }
+    button:disabled { opacity:.5; cursor:not-allowed }
+    input,select,textarea { width:100%; min-height:48px; background:var(--color-input); border:1px solid var(--color-input-rule); color:var(--ink); border-radius:2px; padding:.65rem .8rem }
+    :focus-visible { outline:3px solid var(--color-focus); outline-offset:3px }
+    label { display:block; font-size:14px; font-weight:600; margin-bottom:.4rem }
+    h1,h2,h3,p { margin-top:0 }
+    h1,h2,.name,.intro-title { font-family:var(--font-display); font-weight:500 }
+    h1 { font-size:25px; letter-spacing:.12em; margin:0 }
+    h2 { font-size:26px; margin-bottom:.4rem }
+    small { font-size:14px }
+    small,.muted { color:var(--muted) }
+    .shell { max-width:1320px; margin:auto; padding:0 40px }
+    .mast { min-height:100px; display:flex; align-items:center; justify-content:space-between; gap:20px; border-bottom:1px solid var(--line) }
+    .brand { display:flex; align-items:center; gap:16px }
+    .sigil { width:43px; height:48px; display:grid; place-items:center; background:var(--color-crest); color:var(--color-crest-ink); font:26px var(--font-display); ; letter-spacing:.16em; text-transform:uppercase; color:var(--gold); margin-bottom:.5rem }
+    .mast .eyebrow { margin:3px 0 0; color:var(--muted); font-size:10px }
+    .intro { grid-column:1/-1; padding:38px 0 8px; display:flex; justify-content:space-between; align-items:center; gap:24px }
+    .intro-title { font-size:var(--text-display); letter-spacing:.04em; line-height:1.4; margin:0 0 8px }
+    .intro p { margin:0; color:var(--muted) }
+    .setup { display:grid; grid-template-columns:minmax(0,1.6fr) minmax(0,1fr); gap:24px; align-items:start }
+    .card { background:var(--panel); border:1px solid var(--line); border-radius:2px; padding:28px; border-top:3px solid var(--color-panel-edge) }
+    .section-head { border-bottom:1px solid var(--line); margin-bottom:24px; padding-bottom:18px }
+    .section-head p { color:var(--muted); font-size:14px; margin:0 }
+    .connection { grid-column:2; grid-row:2; background:var(--color-sidebar) }
+    .character { grid-column:1; grid-row:2 }
+    .character,.story { color-scheme:light; --panel:var(--color-paper); --ink:var(--color-paper-ink); --muted:var(--color-paper-muted); --line:var(--color-paper-rule); --gold:var(--color-paper-accent); --green:var(--color-paper-green); color:var(--ink); background:var(--panel) }
+    .character input,.character select,.character textarea,.story textarea { background:var(--color-paper-input); border-color:var(--color-paper-input-rule) }
+    .character .section-head,.story-head { border-bottom-style:double; border-bottom-width:3px }
+    .story button:hover:not(:disabled) { background:var(--color-paper-hover) }
+    .connection > .field { margin-bottom:18px }
+    .connection > small { display:block; margin:-8px 0 18px; overflow-wrap:anywhere }
+    .connection input { font-size:14px }
+    .privacy { border-top:1px solid var(--line); padding-top:18px; margin:24px 0 0 }
+    .grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:18px }
+    .six { display:grid; grid-template-columns:repeat(6,minmax(0,1fr)); gap:8px }
+    .six .field { text-align:center }
+    .six label { font-size:13px }
+    .six select { padding:.5rem; font-family:var(--font-display); font-size:21px }
+    .field { min-width:0 }
+    .actions { display:flex; flex-wrap:wrap; gap:10px; align-items:center }
+    .primary { background:var(--color-accent); border-color:var(--color-accent-rule); color:var(--color-accent-ink); font-weight:600; font-size:18px }
+    .primary:hover:not(:disabled),.story .primary:hover:not(:disabled) { background:var(--color-accent-hover); border-color:var(--color-accent-hover-rule) }
+    .ghost { background:transparent }
+    .setup .wide { grid-column:1/-1 }
+    .launch { padding:22px 0 30px; border:0; border-top:1px solid var(--line); border-radius:0; background:none }
+    .launch .primary { min-width:200px }
+    .launch-note { margin-left:auto; font-size:14px; color:var(--muted) }
+    .error { flex-basis:100%; color:var(--color-error-ink); background:var(--color-error-paper); border:1px solid var(--color-error-rule); padding:14px; border-radius:4px; margin:.8rem 0; white-space:pre-wrap; overflow-wrap:anywhere }
+    .game { display:grid; grid-template-columns:270px minmax(0,1fr); gap:24px; align-items:start; margin-top:30px }
+    .sheet { position:sticky; top:20px; padding:23px; background:var(--color-sidebar) }
+    .sheet .name { font-size:29px; overflow-wrap:anywhere }
+    .sheet .muted { font-size:14px }
+    .statline { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin:20px 0 0 }
+    .stat { text-align:center; padding:8px 2px; border:1px solid var(--line); border-radius:0 }
+    .stat b { display:block; font:24px/1.4 var(--font-display) }
+    .stat small { font-size:13px }
+    .abilities { display:grid; grid-template-columns:repeat(3,1fr); gap:6px; margin-top:8px }
+    .meter { height:6px; background:var(--color-meter-track); overflow:hidden; margin:12px 0 20px; border-radius:0 }
+    .meter span { display:block; height:100%; background:var(--green) }
+    .sheet hr { border:0; border-top:1px solid var(--line); margin:18px 0 }
+    details { border-bottom:1px solid var(--line); padding-bottom:6px; margin-bottom:8px }
+    summary { cursor:pointer; min-height:44px; padding:10px 0; font-size:14px; font-weight:600 }
+    details > div { padding-bottom:12px; overflow-wrap:anywhere }
+    #resources { margin:16px 0; line-height:1.9 }
+    .sheet .actions button { flex:1; padding:.5rem; font-size:14px }
+    #settings { flex-basis:100%; border:0; text-decoration:underline; text-underline-offset:4px }
+    #saveMenu { flex-basis:100% }
+    .story { padding:0; overflow:hidden }
+    .story-head { display:flex; justify-content:space-between; gap:12px; align-items:center; padding:20px 30px; border-bottom:1px solid var(--line) }
+    .story-head h2 { font-size:21px; margin:0 }
+    .story-head small { font-size:12px }
+    .story-body { padding:10px 30px 24px }
+    .log { min-height:300px; max-height:57vh; overflow:auto; scrollbar-width:thin; scrollbar-color:var(--color-scrollbar) transparent; padding-right:10px; overscroll-behavior:contain }
+    .entry { padding:24px 0; border-bottom:1px solid var(--line); white-space:pre-wrap; overflow-wrap:anywhere; font:17px/1.95 var(--font-display) }
+    .entry small { display:block; margin-bottom:10px; color:var(--gold); font:600 12px/1.5 var(--font-body); letter-spacing:.12em }
+    .entry.player { font:16px/1.8 var(--font-body); background:var(--color-player-paper); padding:16px 20px; border:0; border-left:3px solid var(--color-player-rule); margin:16px 0 }
+    .entry.player small { color:var(--green) }
+    .roll { padding:14px 18px; border:1px solid var(--color-roll-rule); background:var(--color-roll-paper); border-radius:4px; margin:16px 0; color:var(--color-roll-ink); font-size:14px }
+    .choicebar,.battlebar { display:flex; flex-wrap:wrap; gap:8px; margin:16px 0 }
+    .choicebar { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); animation:suggestions-in 350ms cubic-bezier(.16,1,.3,1) both }
+    @keyframes suggestions-in { from { opacity:0 } to { opacity:1 } }
+    @media(prefers-reduced-motion:reduce) { .choicebar { animation:none } }
+    @media(max-width:500px) { .choicebar { grid-template-columns:minmax(0,1fr) } }
+    .choicebar button,.battlebar button { font-size:14px; text-align:left; max-width:100%; overflow-wrap:anywhere }
+    .battlebar button:first-child { background:var(--color-battle); color:var(--color-accent-ink) }
+    .battlebar button:first-child:hover:not(:disabled) { background:var(--color-battle-hover) }
+    textarea { min-height:100px; resize:vertical }
+    #backstory { min-height:125px; line-height:1.8 }
+    .composer { border-top:1px solid var(--line); padding-top:20px }
+    .composer label { font:21px var(--font-display); margin-bottom:12px }
+    .composer textarea { background:var(--color-paper-input) }
+    .composer .primary { min-width:125px }
+    .keyhint { margin-left:auto; font-size:12px; color:var(--muted) }
+    .combat-banner { color:var(--color-battle-ink); background:var(--color-battle-paper); border:1px solid var(--color-error-rule); border-left-width:4px; border-radius:4px; padding:14px; margin:14px 0; overflow-wrap:anywhere }
+    .loading { color:var(--gold); font-size:14px }
+    dialog { width:min(560px,calc(100% - 28px)); max-height:90vh; overflow:auto; background:var(--panel); color:var(--ink); border:1px solid var(--gold); padding:24px }
+    dialog::backdrop { background:var(--color-scrim) }
+    dialog h2 { font-size:24px }
+    dialog .field { margin:18px 0 }
+    .check-label { display:flex; align-items:center; gap:10px; min-height:48px }
+    .check-label input { width:20px; min-height:20px; height:20px; flex-shrink:0 }
+    #savePreview { white-space:pre-wrap; overflow-wrap:anywhere; border-left:2px solid var(--gold); padding:12px; margin:16px 0 }
+    [hidden] { display:none!important }
+    @media(max-width:900px) { .shell { padding:0 22px } .setup { grid-template-columns:1fr } .character { grid-column:1; grid-row:2 } .connection { grid-column:1; grid-row:3 } .game { grid-template-columns:1fr } .sheet { position:static } .sheet .statline { max-width:400px } .intro { padding-top:28px } .chapter { display:none } .launch-note { flex-basis:100%; margin:0 } .log { max-height:60vh } }
+    @media(max-width:500px) { .shell { padding:0 14px } .mast { min-height:86px } .card { padding:20px } .story { padding:0 } .story-head { padding:18px 20px } .story-body { padding:0 20px 20px } .story-head small { display:none } .intro-title { font-size:32px } .grid { gap:14px } .six { grid-template-columns:repeat(3,minmax(0,1fr)) } .keyhint { display:none } .launch { padding:20px 0 } .launch button { width:100% } .sheet { padding:18px } .game { gap:16px } .entry { font-size:17px } }
+    @media(prefers-reduced-motion:reduce) { * { transition:none!important; scroll-behavior:auto!important } }
+    @supports(padding:max(0px)) { body { padding-bottom:env(safe-area-inset-bottom) } }
+  
+    html,body { overflow-x:clip }
+    h1,h2,.intro-title { overflow-wrap:anywhere; min-width:0; font-style:normal }
+    h2 { display:flex; align-items:center; gap:var(--space-sm) }
+    .icon-library { position:absolute; width:0; height:0; overflow:hidden }
+    .icon { width:20px; height:20px; flex-shrink:0; fill:none; stroke:currentColor; stroke-width:1.5; stroke-linecap:round; stroke-linejoin:round; vertical-align:middle }
+    .sigil { background:transparent; border:1px solid var(--color-panel-edge); width:40px; height:48px }
+    .sigil .icon { width:28px; height:32px }
+    .mast .eyebrow { font-size:12px; letter-spacing:.08em }
+    .intro { padding:var(--space-xl) 0 var(--space-md) }
+    .intro p { max-width:60ch }
+    .sheet-label { display:flex; align-items:center; gap:var(--space-sm); margin-bottom:var(--space-md); color:var(--gold); font-size:var(--text-label) }
+    .section-head h2 { margin-bottom:var(--space-sm) }
+    button { display:inline-flex; align-items:center; justify-content:center; gap:var(--space-sm); white-space:nowrap }
+    button:active:not(:disabled) { outline:1px solid currentColor; outline-offset:-4px }
+    input:hover:not(:disabled),select:hover:not(:disabled),textarea:hover:not(:disabled) { border-color:var(--gold) }
+    input:disabled,select:disabled,textarea:disabled { opacity:.55; cursor:not-allowed }
+    input::placeholder,textarea::placeholder { color:var(--muted); opacity:1 }
+    .choicebar button { white-space:normal; line-height:1.65 }
+    .entry { max-width:70ch }
+    .story-head h2 { min-width:fit-content }
+    dialog hr { border:0; border-top:1px solid var(--line); margin:var(--space-lg) 0 }
+    @media(max-width:500px) { .intro-title { font-size:28px } .grid { grid-template-columns:minmax(0,1fr) } .story-head { align-items:flex-start; flex-direction:column } }
+  </style>
+</head>
+<body>
+  <svg class="icon-library" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"><defs>
+<symbol id="book" viewBox="0 0 24 24"><path d="M12 5c-3-2-6-2-9-1v15c3-1 6-1 9 1 3-2 6-2 9-1V4c-3-1-6-1-9 1Zm0 0v15"/></symbol>
+<symbol id="quill" viewBox="0 0 24 24"><path d="m4 20 12-12M7 17c-1-7 4-13 14-14 0 9-5 14-12 14Zm4-4h6"/></symbol>
+<symbol id="dice" viewBox="0 0 24 24"><path d="m12 2 10 6v9l-10 5-10-5V8Zm0 0L7 15h10L12 2ZM2 8l5 7 5 7 5-7 5-7M2 17l5-2m10 0 5 2"/></symbol>
+<symbol id="archive" viewBox="0 0 24 24"><path d="M4 9h16v12H4zM3 3h18v6H3zM9 13h6"/></symbol>
+<symbol id="lantern" viewBox="0 0 24 24"><path d="M9 5V3a3 3 0 0 1 6 0v2M6 6h12l-2 3 3 10H5L8 9Zm1 16h10M12 11v5M5 19h14"/></symbol>
+</defs></svg>
+  <div class="shell">
+    <header class="mast"><div class="brand"><span class="sigil" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#lantern"/></svg></span><div><h1>烛火与长路</h1><div class="eyebrow">单人文字冒险</div></div></div></header>
+
+    <section id="setup" class="setup" aria-label="开局设置">
+      <div class="intro"><div><h2 class="intro-title">你的故事，从何而来？</h2><p>给角色一个名字、一段过去。城主会据此写下冒险的开场。</p></div></div>
+      <div class="card character"><div class="section-head"><h2><svg class="icon" aria-hidden="true"><use href="#quill"/></svg>角色档案</h2><p>从 1 级启程。你为何离乡，又有什么未了的心愿？</p></div>
+        <div class="grid">
+          <div class="field"><label for="charName">角色姓名</label><input id="charName" maxlength="30" placeholder="旅途中，人们如何称呼你？"></div>
+          <div class="field"><label for="race">种族</label><select id="race"><option value="human">人类</option><option value="dwarf">矮人</option><option value="elf">精灵</option><option value="halfling">半身人</option></select></div>
+          <div class="field"><label for="job">职业</label><select id="job"><option value="fighter">战士</option><option value="rogue">游荡者</option><option value="cleric">牧师</option><option value="wizard">法师</option></select></div>
+          <div class="field"><label for="background">出身背景</label><select id="background"><option value="soldier">士兵</option><option value="criminal">罪犯</option><option value="sage">贤者</option><option value="acolyte">侍僧</option></select></div>
+        </div>
+        <div class="field" style="margin-top:1rem"><label for="backstory">你的来历（选填）</label><textarea id="backstory" maxlength="2000" placeholder="例如：父亲的旧地图指向一座废弃修道院。我带着他留下的铜钥匙，想知道他为何再也没有回来。"></textarea><small>最多 2000 字。城主会读取这段来历，将其中的人物与牵挂带入冒险。</small></div>
+        <p style="margin:1rem 0 .5rem"><small>分配属性：15、14、13、12、10、8 各用一次。种族加值会自动计入。</small></p>
+        <div id="scoreFields" class="six"></div>
+      </div>
+      <div class="card connection">
+        <div class="section-head"><h2><svg class="icon" aria-hidden="true"><use href="#dice"/></svg>选择你的城主</h2><p>由你指定的模型主持冒险。选择服务，再填写连接信息。</p></div>
+        <div class="field"><label for="provider">模型服务</label><select id="provider"><option value="openai">OpenAI / 兼容接口</option><option value="anthropic">Anthropic</option><option value="llmgateway">LLM Gateway</option></select></div>
+        <div class="field"><label for="baseUrl">接口地址</label><input id="baseUrl" value="https://api.openai.com/v1" spellcheck="false"></div>
+        <small id="apiHint">填写服务商提供的 HTTPS 根地址，或完整聊天接口地址。</small>
+        <div class="field"><label for="model">模型 ID</label><input id="model" value="gpt-4o-mini" spellcheck="false"></div>
+        <div class="field"><label for="key">API Key</label><input id="key" type="password" autocomplete="off" placeholder="粘贴此服务的 API Key"></div>
+        <p class="privacy"><small>模型调用使用你的 API 额度。Key 经游戏服务器转发，不写入服务器文件或浏览器自动存档。若将 Key 一并导出，下次读档便可免输。</small></p>
+      </div>
+      <div class="card wide actions launch">
+        <button id="start" class="primary"><svg class="icon" aria-hidden="true"><use href="#quill"/></svg>开始冒险</button>
+        <button id="resume" class="ghost" hidden>继续上次冒险</button>
+        <button id="importSave" class="ghost"><svg class="icon" aria-hidden="true"><use href="#archive"/></svg>导入存档</button>
+        <span class="launch-note">先建好角色，再连接城主。</span><span id="setupBusy" class="loading" role="status" hidden>城主正在准备冒险的开场……</span>
+        <div id="setupError" class="error" role="alert" hidden></div>
+      </div>
+    </section>
+
+    <section id="game" class="game" hidden aria-label="游戏">
+      <aside class="card sheet">
+        <div class="sheet-label"><svg class="icon" aria-hidden="true"><use href="#quill"/></svg>角色档案</div>
+        <div id="sheetName" class="name"></div>
+        <div id="sheetIdentity" class="muted"></div>
+        <div class="statline">
+          <div class="stat"><b id="hp"></b><small>生命</small></div>
+          <div class="stat"><b id="ac"></b><small>护甲</small></div>
+          <div class="stat"><b id="level"></b><small>等级</small></div>
+        </div>
+        <div class="meter" aria-label="生命值"><span id="hpBar"></span></div>
+        <details class="sheet-extra"><summary>属性与行囊</summary>
+        <details><summary>属性与调整值</summary><div id="abilities" class="abilities"></div></details>
+        <hr>
+        <details id="backstoryPanel" hidden><summary>你的来历</summary><div id="sheetBackstory" style="white-space:pre-wrap;overflow-wrap:anywhere"></div></details>
+        <hr id="backstoryDivider" hidden>
+        <div id="resources" class="muted"></div>
+        <hr>
+        <details><summary>行囊物品</summary><div id="inventory"></div></details>
+        <hr>
+        <details><summary>旅途线索</summary><div id="journal"></div></details>
+        <hr>
+        </details>
+        <div class="actions"><button id="shortRest" class="ghost">短休</button><button id="longRest" class="ghost">长休</button><button id="saveMenu" class="ghost"><svg class="icon" aria-hidden="true"><use href="#archive"/></svg>存档与读档</button><button id="settings" class="ghost">城主设置</button></div>
+      </aside>
+      <main class="card story"><div class="story-head"><h2><svg class="icon" aria-hidden="true"><use href="#book"/></svg>冒险手札</h2><small>场景与对话</small></div><div class="story-body">
+        <div id="combatBanner" class="combat-banner" hidden></div>
+        <div id="log" class="log" role="log" tabindex="0" aria-label="冒险故事" aria-live="polite"></div>
+        <div id="rollDisplay" class="roll" hidden></div>
+        <div id="battlebar" class="battlebar" hidden></div>
+        <div id="gameBusy" class="loading" role="status" hidden>城主正在回应你的行动……</div>
+        <div id="gameError" class="error" role="alert" hidden></div>
+        <div class="composer">
+          <label for="action">接下来，你打算怎么做？</label>
+          <div id="choices" class="choicebar" aria-label="建议行动" hidden></div>
+          <textarea id="action" placeholder="例如：我举起提灯，查看门上的刻痕；再问守卫，昨夜是谁来过。"></textarea>
+          <div class="actions" style="margin-top:.6rem"><button id="send" class="primary"><svg class="icon" aria-hidden="true"><use href="#quill"/></svg>行动</button><span class="keyhint">Ctrl / ⌘ + Enter</span></div>
+        </div>
+      </div></main>
+    </section>
+    <dialog id="saveDialog" aria-labelledby="saveTitle">
+      <h2 id="saveTitle"><svg class="icon" aria-hidden="true"><use href="#archive"/></svg>保存与继续</h2>
+      <div id="exportPanel">
+        <p class="muted">把角色、旅途线索和当前战斗保存为文件。下次导入，从这里继续。</p>
+        <label class="check-label"><input id="includeKey" type="checkbox" checked>一并保存 API Key，下次免输</label>
+        <p><small>勾选后，密钥将以明文写入存档。请妥善保管，不要分享含 Key 的文件。</small></p>
+        <button id="exportSave" class="primary"><svg class="icon" aria-hidden="true"><use href="#archive"/></svg>保存为文件</button>
+        <hr>
+      </div>
+      <div class="field"><label for="saveFile">选择存档文件（JSON，最大 256 KB）</label><input id="saveFile" type="file" accept=".json,application/json"></div>
+      <div id="savePreview" hidden></div>
+      <div id="saveError" class="error" role="alert" hidden></div>
+      <div class="actions"><button id="confirmImport" class="primary" hidden>读取此存档</button><button id="closeSave" class="ghost">关闭</button></div>
+      <p id="saveStatus" role="status" class="muted"></p>
+    </dialog>
+  </div>
+  <script>
+    const $ = id => document.getElementById(id);
+    const AB = [['STR','力量'],['DEX','敏捷'],['CON','体质'],['INT','智力'],['WIS','感知'],['CHA','魅力']];
+    const RACE = {human:'人类',dwarf:'矮人',elf:'精灵',halfling:'半身人'};
+    const JOB = {fighter:'战士',rogue:'游荡者',cleric:'牧师',wizard:'法师'};
+    const BG = {soldier:'士兵',criminal:'罪犯',sage:'贤者',acolyte:'侍僧'};
+    const values = [15,14,13,12,10,8];
+    let state = null, busy = false, pendingSave = null, currentOptions = [], suggestionsTimer = null;
+    $('scoreFields').innerHTML = AB.map(([key,label],i) => `<div class="field"><label for="score${key}">${label}</label><select id="score${key}">${values.map(v => `<option value="${v}" ${v===values[i]?'selected':''}>${v}</option>`).join('')}</select></div>`).join('');
+    $('resume').hidden = !localStorage.getItem('dnd5e-save');
+    const apiDefaults={openai:['https://api.openai.com/v1','gpt-4o-mini'],anthropic:['https://api.anthropic.com/v1','claude-opus-5-5'],llmgateway:['https://api.llmgateway.io/v1','gpt-4o']};
+    const apiHint=() => $('apiHint').textContent=$('provider').value==='llmgateway'?'官方地址：https://api.llmgateway.io/v1；模型 ID 可填 alibaba/deepseek-v4.1-flash:cn-beijing。':'填写服务商提供的 HTTPS 根地址，或完整聊天接口地址。';
+    $('provider').onchange=() => { const model=$('model').value; [$('baseUrl').value,$('model').value]=apiDefaults[$('provider').value]; if ($('provider').value==='llmgateway' && model && !['gpt-4o-mini','claude-opus-5-5'].includes(model)) $('model').value=model; apiHint(); };
+    try { const c = JSON.parse(localStorage.getItem('dnd5e-config') || '{}'); if (apiDefaults[c.provider]) $('provider').value = c.provider; if (c.baseUrl) { const u=new URL(c.baseUrl); if (['llmgateway.io','www.llmgateway.io','api.llmgateway.io'].includes(u.hostname)) $('provider').value='llmgateway'; $('baseUrl').value=$('provider').value==='llmgateway' && u.pathname==='/' ? apiDefaults.llmgateway[0] : c.baseUrl; } if (c.model) $('model').value = c.model; } catch {}
+    apiHint();
+    function config() { return { provider:$('provider').value, baseUrl:$('baseUrl').value.trim(), model:$('model').value.trim(), key:$('key').value.trim() }; }
+    function canSuggest() { return !!state && state.hp>0 && !state.combat && !busy && !$('game').hidden && !$('saveDialog').open && !document.hidden; }
+    function resetSuggestions() {
+      clearTimeout(suggestionsTimer); suggestionsTimer=null; $('choices').hidden=true;
+      if (canSuggest()) suggestionsTimer=setTimeout(()=>{ if (canSuggest()) $('choices').hidden=false; },10000);
+    }
+    function setBusy(value) { busy=value; resetSuggestions(); for (const id of ['start','resume','settings','importSave','saveMenu']) $(id).disabled=value; for (const id of ['send','shortRest','longRest']) $(id).disabled=value || !!state?.combat || state?.hp===0; $('setupBusy').hidden=!value; $('gameBusy').hidden=!value; document.querySelectorAll('#battlebar button').forEach(x => x.disabled=value); }
+    function parseSave(text) {
+      if (new TextEncoder().encode(text).length>262144) throw Error('存档文件不能超过 256 KB。');
+      let data; try { data=JSON.parse(text); } catch { throw Error('无法读取 JSON：文件可能已损坏。'); }
+      const fail=()=>{throw Error('存档内容无效或不完整，未替换当前进度。');};
+      const str=(v,max)=>typeof v==='string' && v.length<=max;
+      const num=(v,min,max)=>Number.isSafeInteger(v) && v>=min && v<=max;
+      if (!data || data.format!=='candle-road-5e' || data.version!==1) throw Error('不是受支持的烛火与长路存档（版本 1）。');
+      const s=data.state,c=data.config;
+      if (!s || !str(s.name,30) || !s.name.trim() || !['human','dwarf','elf','halfling'].includes(s.race) || !['fighter','rogue','cleric','wizard'].includes(s.class) || !['soldier','criminal','sage','acolyte'].includes(s.background)) fail();
+      if (!s.abilities || !['STR','DEX','CON','INT','WIS','CHA'].every(k=>num(s.abilities[k],1,30)) || !num(s.maxHp,1,1000) || !num(s.hp,0,s.maxHp) || !num(s.level,1,3) || !num(s.ac,1,50)) fail();
+      if (!['xp','hitDice','slots','potion','secondWind'].every(k=>num(s[k],0,1000000)) || !s.death || !['success','failure'].every(k=>num(s.death[k],0,10))) fail();
+      if (!str(s.backstory ?? '',2000) || !str(s.journal,1200) || !Array.isArray(s.inventory) || s.inventory.length>30 || !s.inventory.every(v=>str(v,50)) || !Array.isArray(s.history) || s.history.length>12 || !s.history.every(v=>v && ['player','dm'].includes(v.role) && str(v.text,2000))) fail();
+      if (s.combat!==null) {
+        const e=s.combat?.enemy;
+        if (!e || !str(e.name,40) || !['hp','ac','xp'].every(k=>num(e[k],0,1000)) || !['attack','damageBonus','dexSave'].every(k=>num(e[k],-20,20)) || !num(e.damageCount,1,10) || !num(e.damageSides,2,100) || typeof s.combat.dodge!=='boolean' || typeof s.combat.advantage!=='boolean') fail();
+      }
+      if (!c || !['openai','anthropic','llmgateway'].includes(c.provider) || !str(c.baseUrl,300) || !str(c.model,100) || !c.model.trim() || !str(c.key ?? '',300)) fail();
+      let url; try { url=new URL(c.baseUrl); } catch { fail(); }
+      if (url.protocol!=='https:' || url.username || url.password || url.search || url.hash || (url.port && url.port!=='443')) throw Error('存档中的 API 地址必须是无认证信息的 HTTPS 地址。');
+      if (!Array.isArray(data.options) || data.options.length>4 || !data.options.every(v=>str(v,80))) fail();
+      return data;
+    }
+    function makeSave(includeKey) {
+      if (!state) throw Error('请先开始或恢复一场冒险。');
+      const c=config(); if (!includeKey) delete c.key;
+      const text=JSON.stringify({format:'candle-road-5e',version:1,savedAt:new Date().toISOString(),state,config:c,options:currentOptions},null,2);
+      parseSave(text); return text;
+    }
+    function restoreSave(data) {
+      // Validate before changing either the current game or its API destination.
+      data=parseSave(JSON.stringify(data));
+      const c=data.config;
+      for (const id of ['provider','baseUrl','model','key']) $(id).value=c[id] || '';
+      apiHint(); state=data.state; currentOptions=data.options;
+      let storageWarning='';
+      try { localStorage.setItem('dnd5e-save',JSON.stringify(state)); localStorage.setItem('dnd5e-config',JSON.stringify({provider:c.provider,baseUrl:c.baseUrl,model:c.model})); }
+      catch { storageWarning='浏览器自动存档不可用，请继续使用文件存档。'; }
+      $('resume').hidden=false; $('rollDisplay').hidden=true; $('action').value=''; clearError();
+      $('setup').hidden=!!c.key; $('game').hidden=!c.key;
+      render(currentOptions); setBusy(false); $('saveDialog').close();
+      if (!c.key) { error('存档已导入。请填写 API Key，再点击“继续上次冒险”。'+storageWarning); $('key').focus(); }
+      else if (storageWarning) error(storageWarning);
+    }
+    function openSave() {
+      if (busy) return;
+      pendingSave=null; $('saveFile').value=''; $('saveError').hidden=true; $('savePreview').hidden=true; $('confirmImport').hidden=true; $('saveStatus').textContent=''; $('exportPanel').hidden=!state; $('saveDialog').showModal(); resetSuggestions();
+    }
+    $('importSave').onclick=openSave; $('saveMenu').onclick=openSave;
+    $('closeSave').onclick=()=>$('saveDialog').close();
+    $('saveDialog').addEventListener('close',resetSuggestions);
+    $('exportSave').onclick=()=>{
+      try {
+        const text=makeSave($('includeKey').checked);
+        const url=URL.createObjectURL(new Blob([text],{type:'application/json'})), a=document.createElement('a');
+        a.href=url; a.download=`烛火与长路-${state.name.replace(/[<>:"/\\|?*\x00-\x1f]/g,'_')}-${Date.now()}.json`;
+        document.body.append(a); a.click(); a.remove(); setTimeout(()=>URL.revokeObjectURL(url),1000);
+        $('saveStatus').textContent='已发起下载。请在浏览器下载列表中查看存档文件。';
+      } catch(e) { $('saveError').textContent=e.message; $('saveError').hidden=false; }
+    };
+    $('saveFile').onchange=async()=>{
+      pendingSave=null; $('confirmImport').hidden=true; $('savePreview').hidden=true; $('saveError').hidden=true;
+      const file=$('saveFile').files[0]; if (!file) return;
+      try {
+        if (file.size>262144) throw Error('存档文件不能超过 256 KB。');
+        const data=parseSave(await file.text());
+        if ($('saveFile').files[0]!==file || !$('saveDialog').open) return;
+        pendingSave=data;
+        $('savePreview').textContent=`${data.state.name} · ${data.state.level} 级 · ${data.state.combat?'战斗中':'探索中'}\nAPI：${data.config.baseUrl}\n模型：${data.config.model}\n${data.config.key?'含 API Key，恢复后可直接继续。':'不含 API Key，恢复后需补填。'}\n恢复会替换当前进度及浏览器自动存档。`;
+        $('savePreview').hidden=false; $('confirmImport').hidden=false;
+      } catch(e) { $('saveError').textContent=e.message; $('saveError').hidden=false; }
+    };
+    $('confirmImport').onclick=()=>{ if (pendingSave && !busy) restoreSave(pendingSave); };
+    function error(message) { const el = $('setup').hidden ? $('gameError') : $('setupError'); el.textContent = message; el.hidden = false; }
+    function clearError() { $('gameError').hidden=true; $('setupError').hidden=true; }
+    async function request(body) {
+      if (busy) return;
+      clearError(); setBusy(true);
+      try {
+        const conf = config(); if (!conf.key || !conf.model || !conf.baseUrl) throw Error('请填写 API Key、模型名称和接口地址。');
+        const response = await fetch('/api/play', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({...body, config:conf}) });
+        const data = await response.json(); if (!response.ok) throw Error(data.error || `请求失败：${response.status}`);
+        state = data.state;
+        localStorage.setItem('dnd5e-save', JSON.stringify(state));
+        localStorage.setItem('dnd5e-config', JSON.stringify({provider:conf.provider,baseUrl:conf.baseUrl,model:conf.model}));
+        $('setup').hidden=true; $('game').hidden=false;
+        $('rollDisplay').hidden=!data.roll;
+        if (data.roll) $('rollDisplay').textContent=`检定：${data.roll.skill || data.roll.ability} · d20 ${data.roll.dice.join(' / ')} ${data.roll.bonus>=0?'+':''}${data.roll.bonus} = ${data.roll.total}，DC ${data.roll.dc} → ${data.roll.success?'成功':'失败'}`;
+        render(data.options || []);
+        $('action').value='';
+      } catch (e) { error(e.message); }
+      finally { setBusy(false); }
+    }
+    function render(options=[]) {
+      if (!state) return;
+      const fallback=['仔细观察周围，寻找遗漏的细节。','回顾已有线索，决定下一步调查方向。','检查随身物品，看看有什么能派上用场。','留意附近的声音与动静。'];
+      currentOptions=[...new Set([...(Array.isArray(options)?options:[]),...fallback].filter(x=>typeof x==='string').map(x=>x.trim().slice(0,80)).filter(Boolean))].slice(0,4);
+      $('sheetName').textContent=state.name;
+      $('sheetIdentity').textContent=`${RACE[state.race]} · ${JOB[state.class]} · ${BG[state.background]}`;
+      $('hp').textContent=`${state.hp}/${state.maxHp}`; $('ac').textContent=state.ac; $('level').textContent=state.level;
+      $('hpBar').style.width=`${Math.max(0,state.hp/state.maxHp*100)}%`;
+      $('abilities').replaceChildren(...AB.map(([key,label]) => { const el=document.createElement('div'); el.className='stat'; const m=Math.floor((state.abilities[key]-10)/2); el.innerHTML=`<small>${label}</small><b>${state.abilities[key]}</b><small>${m>=0?'+':''}${m}</small>`; return el; }));
+      $('backstoryPanel').hidden=!state.backstory;
+      $('backstoryDivider').hidden=!state.backstory;
+      $('sheetBackstory').textContent=state.backstory || '';
+      $('resources').textContent=`经验 ${state.xp} XP · 生命骰 ${state.hitDice}/${state.level} · 法术位 ${state.slots} · 药水 ${state.potion}${state.class==='fighter' ? ` · 回气 ${state.secondWind}` : ''}`;
+      $('inventory').textContent=state.inventory.length ? state.inventory.join('、') : '尚未获得物品。';
+      $('journal').textContent=state.journal || '遇见的人、到过的地方与未解的线索，会记在这里。';
+      $('log').replaceChildren(...state.history.map(entry => { const el=document.createElement('div'); el.className=`entry ${entry.role==='player'?'player':''}`; const label=document.createElement('small'); label.textContent=entry.role==='player'?'你':'地下城主'; el.append(label,document.createTextNode(entry.text)); return el; }));
+      $('log').scrollTop=$('log').scrollHeight;
+      $('combatBanner').hidden=!state.combat;
+      document.querySelector('.composer').hidden=!!state.combat;
+      $('hpBar').parentElement.setAttribute('aria-label', `生命值 ${state.hp} / ${state.maxHp}`);
+      if (state.combat) $('combatBanner').textContent=`战斗中 · ${state.combat.enemy.name} · 生命 ${state.combat.enemy.hp} · AC ${state.combat.enemy.ac}`;
+      $('action').disabled=!!state.combat || state.hp===0;
+      $('send').disabled=!!state.combat || state.hp===0 || busy;
+      $('shortRest').disabled=!!state.combat || state.hp===0 || busy;
+      $('longRest').disabled=!!state.combat || state.hp===0 || busy;
+      $('choices').replaceChildren(...currentOptions.map(option => { const b=document.createElement('button'); b.textContent=option; b.onclick=() => { $('action').value=option; $('action').focus(); resetSuggestions(); }; return b; }));
+      resetSuggestions();
+      $('battlebar').hidden=!state.combat;
+      const battle = state.hp===0 ? [['death','进行死亡豁免']] : state.class==='fighter' ? [['attack','长剑攻击'],['wind','回气']] : state.class==='rogue' ? [['attack','短剑攻击'],['hide','躲藏']] : state.class==='cleric' ? [['attack','战锤攻击'],['sacred','圣火术'],['guiding','曳光弹'],['heal','疗伤术']] : [['firebolt','火焰箭'],['missile','魔法飞弹']];
+      if (state.hp>0) battle.push(['dodge','回避'],['potion','治疗药水'],['flee','撤离']);
+      $('battlebar').replaceChildren(...battle.map(([value,label]) => { const b=document.createElement('button'); b.textContent=label; b.disabled=busy; b.onclick=() => request({kind:'combat',state,action:value}); return b; }));
+    }
+    $('start').onclick=() => {
+      const scores=Object.fromEntries(AB.map(([a]) => [a,Number($('score'+a).value)]));
+      if (new Set(Object.values(scores)).size!==6) return error('有属性数值重复了。请将 15、14、13、12、10、8 各分配一次。');
+      if (!$('charName').value.trim()) return error('还缺一个名字。请填写角色姓名后再启程。');
+      state=null; request({kind:'start',character:{name:$('charName').value,race:$('race').value,class:$('job').value,background:$('background').value,backstory:$('backstory').value,scores}});
+    };
+    $('resume').onclick=() => { if (!config().key) return error('继续游戏前请重新输入 API Key。'); try { if (!state) state=JSON.parse(localStorage.getItem('dnd5e-save')); $('setup').hidden=true; $('game').hidden=false; clearError(); render(currentOptions); } catch { error('本地存档无法读取。'); } };
+    $('send').onclick=() => request({kind:'explore',state,action:$('action').value});
+    $('action').addEventListener('keydown',e => { if (e.key!=='Tab') resetSuggestions(); if (e.key==='Enter' && (e.ctrlKey || e.metaKey)) $('send').click(); });
+    $('action').addEventListener('input',resetSuggestions);
+    document.addEventListener('pointerdown',e=>{ if (!e.target.closest?.('#choices')) resetSuggestions(); });
+    document.addEventListener('visibilitychange',resetSuggestions);
+    $('shortRest').onclick=() => request({kind:'rest',state,action:'short'});
+    $('longRest').onclick=() => request({kind:'rest',state,action:'long'});
+    $('settings').onclick=() => { $('game').hidden=true; $('setup').hidden=false; $('resume').hidden=false; resetSuggestions(); };
+  </script>
+</body>
+</html>
